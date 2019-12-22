@@ -1,14 +1,5 @@
 import React, { Component } from "react";
 import { DateBox } from "devextreme-react";
-import PieChart, {
-    Legend,
-    Series,
-    Tooltip,
-    Format,
-    Label,
-    Connector,
-    Export
-  } from 'devextreme-react/pie-chart';
 import "./Analytics.css"
 
 export default class Analytics extends Component {
@@ -16,8 +7,8 @@ export default class Analytics extends Component {
     state = {
         startDate: null,
         endDate: null,
-        withDrawCount: 0,
-        depositCount: 0
+        pieChartData: null,
+        showPieChart: false
     }
 
     gwtDate = (date) => {
@@ -66,7 +57,17 @@ export default class Analytics extends Component {
     getChartData = () => {
         const withDrawCount = this.getWithDrawCount();
         const depositCount = this.getDepositCount();
-        this.setState({withdisplayPie: true});
+        const pieChartData = [
+            {
+            'property' : 'With Drawls',
+            'value' : withDrawCount
+            },
+            {
+                'property' : 'deposit count',
+                'value' : depositCount
+            }
+        ]
+        this.setState({pieChartData, showPieChart: true});
     }
 
     render() {
@@ -76,6 +77,7 @@ export default class Analytics extends Component {
                 <div>
                     <DateBox className="dateBox" placeholder="start date" onValueChanged={this.setStartDate} />
                     <DateBox className="dateBox" placeholder="end date" onValueChanged={this.setEndDate} />
+                    {this.state.showPieChart ? { <PieChart dataSoruce={this.state.pieChartData}/> } : null }
                 </div>
             </div>
         )
