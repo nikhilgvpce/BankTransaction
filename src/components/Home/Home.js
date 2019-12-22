@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Spinner } from "react-bootstrap";
 import TableData from "../TableData/TableData";
+import { Route, Switch, NavLink } from "react-router-dom";
 import "./Home.css";
+import Analytics from "../Analytics/Analytics";
 
 export default class Home extends Component {
 
@@ -12,22 +14,19 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        // inorder to solve the CORS issue temporarily..I used this URL: https://cors-anywhere.herokuapp.com 
+        // Inorder to solve the CORS issue temporarily..I used this URL: https://cors-anywhere.herokuapp.com 
         fetch('https://cors-anywhere.herokuapp.com/http://starlord.hackerearth.com/bankAccount').then(response => {
             return response.json();
         }).then(data => {
             this.setState({ data: data });
         });
-        // axios.get('https://cors-anywhere.herokuapp.com/http://starlord.hackerearth.com/bankAccount').then(response => {
-        //     this.setState({ data: response.data });
-        // });
     }
 
     render() {
         const showSpinner = (
             <div className="spinner">
                 <p>Getting Transcation Details...</p>
-                <Spinner animation="border" role="status"/>
+                <Spinner animation="border" role="status" />
             </div>
 
         );
@@ -35,8 +34,32 @@ export default class Home extends Component {
         const tableData = (
             <TableData data={this.state.data} columns={this.state.columns} />
         )
+
+        const analytics = (
+            <Analytics data={this.state.data} />
+        )
         return (
-            this.state.data ? tableData : showSpinner
+            <div>
+                {this.state.data ?
+                    <div>
+                        <nav className="nav">
+                            <ul>
+                                <li><NavLink to="/" exact>TableData</NavLink></li>
+                                <li>
+                                    <NavLink to="/Analytics" >
+                                        Analytics
+                            </NavLink>
+                                </li>
+                            </ul>
+                        </nav>
+                        <Switch>
+                            <Route path="/Analytics" exact component={() => analytics} />
+                            <Route path="/" exact component={() => tableData} />
+                        </Switch>
+                    </div>
+                    : showSpinner
+                }
+            </div>
         )
     }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import DataGrid, { Paging, Pager } from 'devextreme-react/data-grid';
-import { Button, ButtonToolbar } from "react-bootstrap";
 import Analytics from "../Analytics/Analytics";
 
 export default class TableData extends Component {
@@ -16,9 +15,7 @@ export default class TableData extends Component {
     render() {
         return (
             <div>
-                <ButtonToolbar>
-                    <Button variant="primary" onClick={this.handleAnalytics}>View Transaction Analytics</Button>
-                </ButtonToolbar>
+                <h3>Your Account Transactions</h3>
                 <DataGrid
                     dataSource={this.props.data}
                     defaultColumns={this.props.columns}

@@ -1,9 +1,5 @@
-
 import PieChart, {
-    Legend,
     Series,
-    Tooltip,
-    Format,
     Label,
     Connector,
     Export
@@ -11,28 +7,24 @@ import PieChart, {
 
 import React, { Component } from "react";
 
-export default class PieChart extends Component {
+export default class Pie extends Component {
     render() {
         return (
             <div>
                 <PieChart
                     id="pie"
-                    dataSource={areas}
+                    dataSource={this.props.dataSource}
                     palette="Bright"
-                    title="Area of Countries"
-                    onPointClick={this.pointClickHandler}
-                    onLegendClick={this.legendClickHandler}
+                    title="Transaction Behaviour"
                 >
                     <Series
-                        argumentField="country"
-                        valueField="area"
+                        argumentField="property"
+                        valueField="value"
                     >
                         <Label visible={true}>
                             <Connector visible={true} width={1} />
                         </Label>
                     </Series>
-
-                    <Size width={500} />
                     <Export enabled={true} />
                 </PieChart>
             </div>
